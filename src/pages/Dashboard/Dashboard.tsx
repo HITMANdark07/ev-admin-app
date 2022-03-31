@@ -1,44 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
-import GoogleMapReact from 'google-map-react';
+import { compose, withProps } from "recompose";
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker
+} from "react-google-maps";
 
-type MarkerComp = {
-    text: String,
-    lat : Number,
-    lng: Number
-}
-
-const AnyReactComponent = ({ text }: MarkerComp) => <div>
-    <img src={require("../../assets/station.png")} alt="station logo" style={{height:'30px',width:'30px'}} />
-    </div>;
 const Dashboard = () => {
 
-    const defaultProps = {
+    const [defaultProps, setDefaultProps] = useState({
         center: {
-            lat: 22.6030056,
-            lng: 88.4159157
+            lat: 22.6036455,
+            lng: 88.4350086
         },
-        zoom: 11
-    };
+        zoom: 18.88
+    });
+    const MyMapComponent = compose(
+      withProps({
+        googleMapURL:
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyATzOQBhRyutho2AlgGTQnsybhNOkuACzI&v=3.exp&libraries=geometry,drawing,places",
+        loadingElement: <div style={{ height: `400px` }} />,
+        containerElement: <div style={{ height: `400px`, width:`90%`, marginLeft:`5%`, borderRadius:8, overflow:'hidden' }} />,
+        mapElement: <div style={{ height: `100%` }} />,
+      }),
+      withScriptjs,
+      withGoogleMap
+    )(props => 
+        (
+          <GoogleMap defaultZoom={defaultProps.zoom} defaultCenter={defaultProps.center}>
+              <Marker position={defaultProps.center} />
+          </GoogleMap>
+        )
+    );
+
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setDefaultProps(prevProps => ({
+          ...prevProps,
+          center:{
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        }))
+      },(err) => {
+        if(err.code === 1) {
+          alert("Error: Location Access is denied!");
+       } else if( err.code === 2) {
+          alert("Error: Position is unavailable!");
+       }
+      },{
+        timeout:60000
+      })
+    },[])
   return (
     <div>
       <Sidebar activeMenu="Dashboard" />
       <div style={{ marginLeft: "16rem" }}>
         <Header />
-        <div style={{ height: '60vh', width: '80%',marginLeft:'10%',marginTop:10, alignSelf:'center', borderRadius:10,overflow:'hidden' }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyATzOQBhRyutho2AlgGTQnsybhNOkuACzI" }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-            >
-                <AnyReactComponent
-                lat={22.6030056}
-                lng={88.4159157}
-                text="My Marker"
-                />
-            </GoogleMapReact>
+        <div style={{width:'90%', marginLeft:'5%'}}>
+          <div className="font-bold text-lg tracking-wide my-2">Devices Nearby</div>
         </div>
+        <MyMapComponent  />
+        
       </div>
     </div>
   );

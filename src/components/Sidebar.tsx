@@ -1,10 +1,14 @@
 import React from "react";
 import { ShieldCheckIcon } from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
+
 type activeProps = {
   activeMenu: String
 }
 const Sidebar = ({activeMenu}:activeProps) => {
+
+  const location = useLocation();
+  console.log(location);
   return (
     <aside
       className="w-64 h-screen fixed bg-gray-50 dark:bg-gray-800"
@@ -20,8 +24,8 @@ const Sidebar = ({activeMenu}:activeProps) => {
         <ul className="space-y-2">
           <li>
             <Link
-              to="/"
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              to="/dashboard"
+              className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white ${location.pathname==="/dashboard" && "bg-gray-700" } hover:bg-gray-100 dark:hover:bg-gray-700`}
             >
               <svg
                 className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -37,8 +41,8 @@ const Sidebar = ({activeMenu}:activeProps) => {
           </li>
           <li>
             <Link
-              to="/"
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              to="/devices"
+              className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white ${location.pathname==="/devices" && "bg-gray-700" } hover:bg-gray-100 dark:hover:bg-gray-700`}
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -76,8 +80,8 @@ const Sidebar = ({activeMenu}:activeProps) => {
           </li> */}
           <li>
             <Link
-              to="/"
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              to="/users"
+              className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white ${location.pathname==="/users" && "bg-gray-700" } hover:bg-gray-100 dark:hover:bg-gray-700`}
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -96,8 +100,8 @@ const Sidebar = ({activeMenu}:activeProps) => {
           </li>
           <li>
             <Link
-              to="/"
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              to="/products"
+              className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white ${location.pathname==="/products" && "bg-gray-700" } hover:bg-gray-100 dark:hover:bg-gray-700`}
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
