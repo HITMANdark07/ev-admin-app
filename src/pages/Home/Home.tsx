@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ShieldCheckIcon } from "@heroicons/react/solid";
+import Google from "../../components/Google";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -70,6 +71,9 @@ const Home = () => {
                 Remember me{" "}
               </label>
             </div>
+          </div>
+          <div>
+            <Google />
           </div>
 
           <div>
